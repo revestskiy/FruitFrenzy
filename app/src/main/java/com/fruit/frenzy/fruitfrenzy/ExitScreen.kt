@@ -1,5 +1,6 @@
 package com.fruit.frenzy.fruitfrenzy
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,22 +23,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fruit.frenzy.fruitfrenzy.ui.theme.nujnoefont
 
 
-@Preview
 @Composable
-fun ExitScreen() {
+fun ExitScreen(
+    onBack: () -> Unit
+) {
+
+    val context = LocalContext.current as Activity
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .paint(
-                painter = painterResource(id = R.drawable.background), // Укажите ваш фон
+                painter = painterResource(id = Prefs.selectedBg), // Укажите ваш фон
                 contentScale = ContentScale.Crop
             )
     ) {
@@ -59,7 +61,7 @@ fun ExitScreen() {
                         .size(40.dp)
                         .align(Alignment.TopStart)
                         .clickable {
-
+                            onBack()
                         }
                 )
             }
@@ -91,7 +93,7 @@ fun ExitScreen() {
                 ) {
                     // Кнопка "YES"
                     Button(
-                        onClick = { /* Обработчик нажатия "YES" */ },
+                        onClick = { context.finishAndRemoveTask() },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF3CC825)
                         ),
@@ -108,16 +110,16 @@ fun ExitScreen() {
 
                     // Кнопка "NO"
                     Button(
-                        onClick = { /* Обработчик нажатия "NO" */ },
+                        onClick = { onBack() },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red
+                            containerColor = Color(0xff9AA299)
                         ),
                         modifier = Modifier.size(80.dp, 40.dp)
                     ) {
                         Text(
                             text = "NO",
                             fontFamily = nujnoefont, // Укажите ваш шрифт
-                            color = Color.White
+                            color = Color(0xff626060)
                         )
                     }
                 }
